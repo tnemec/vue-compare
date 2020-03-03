@@ -1,7 +1,7 @@
 <template>
-	<tr class="list-item" v-bind:key="newItem.id || 0">
-  	  <td class="sel">{{newItem.id +1}}</td>
-	  <td><groupSelect v-bind:itemIndex="newItem.id" /></td>	  
+	<tr class="list-item" v-bind:key="index">
+  	  <td class="sel">{{index +1}}</td>
+	  <td><groupSelect v-bind:item="newItem" /></td>	  
 	  <td><input type="text" class="item-name" v-model="newItem.name" placeholder="Name" /></td>
   	  <td class="specs"><textarea class="item-specs" v-model="newItem.specs" placeholder="Specs" /></td>
   	  <td class="url"><input type="text" class="item-url" v-model="newItem.url" placeholder="URL" /></td>		
@@ -20,7 +20,7 @@
 
 export default {
 	name: 'itemComponent',
-	props: ['item'],
+	props: ['item', 'index'],
 	components: {
 		groupSelect,
 	},

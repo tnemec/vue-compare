@@ -1,7 +1,7 @@
 <template>
 	<div id="group-panel">
-		<div v-for="(group, index) of groups">
-			<a @click="toggleGroup(index)" class="btn" v-bind:class="{'visible': group.visible}" >{{group.name}} {{group.visible}}</a>
+		<div v-for="group of groups">
+			<a @click="toggleGroup(group.id)" class="btn" v-bind:class="{'visible': group.visible}" >{{group.name}} {{group.visible}}</a>
 		</div>
 	</div>
 </template>

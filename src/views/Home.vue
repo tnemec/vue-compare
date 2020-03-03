@@ -1,7 +1,5 @@
 <template>
 	<div class="home">
-
-	{{this.$store.state.groups}}
 		<groupPanel></groupPanel>
 
 		<table class="item-table">
@@ -17,7 +15,7 @@
 				<th>{{items.length}}</th>
 			</tr>
 			<template   v-for="(row, index) in items">
-				<itemComponent  v-bind:item="row" v-bind:id="index" /></itemComponent>
+				<itemComponent  v-bind:item="row" v-bind:index="index" /></itemComponent>
 			</template>
 			<tr class="new-item">
 				<td colspan="9">
@@ -52,8 +50,6 @@
 		name: 'Home',
 		data() {
 			return {
-				hasNew: false,
-				editingItem: null,
 			}
 		},
 		components: {
@@ -81,9 +77,7 @@
 		},
 		methods: {
 			newItem() {
-				if(! this.hasNew) {
-					this.$store.commit('addItem', this.$store.state.baseItem);
-				}
+				this.$store.commit('addItem');
 			},
 			removeItem(id) {
 				if(id != '') {
