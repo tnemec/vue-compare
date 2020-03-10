@@ -10,24 +10,11 @@ export default new Vuex.Store({
   		{id: 0, name: 'G1', visible: true},
   		{id: 1, name: 'G2', visible: true},
   	],
-  	unset: true, // should show items that are not in any groups
+  	unset: false, // should show items that are not in any groups
   	suppliers: {},
   	baseItem: {name:'',id:0,url:'',specs:'',qty:1,price:0,weight:0,groups:[0],attributes:[],supplier:null,enabled:true},
   },
   getters: {
-  	filteredItems(state) {
-  		let visibleGroups = state.groups.filter( group => group.visible);
-
-  		return state.items.filter(item => {
-  			for( let i = 0; i < visibleGroups.length; i++) {
-  				if(item.groups.indexOf(visibleGroups) !== -1) {
-  					return item
-  				}
-  			}
-  			// return items with no groups selected if unset is true
-  			return state.unset ? item : undefined;
-  		});
-  	},
   	getItem: (state) => (itemId) => {
 		return state.items.find( item => item.id === itemId);
 	},
@@ -38,7 +25,20 @@ export default new Vuex.Store({
 			}
 			return -1;
 		})
-	}
+	},
+	filteredItems(state){
+	let groups = state.groups;
+		return state.items.filter(item => {
+			let show = false;
+			for( let i = 0 ; i < groups.length; i++ ) {
+				if (groups[i].visible && item.groups.indexOf(groups[i].id) !== -1) {
+					show = true;
+				}
+			}
+			// return items with no groups selected if unset is true
+			return show || state.unset;
+		});
+	},
   },
   mutations: {
 	initialiseStore(state) {
@@ -71,20 +71,26 @@ export default new Vuex.Store({
 	},
 	addToGroup(state, payload) {
 		let itemIndex = state.items.findIndex( i => i.id === payload.itemId);
-		console.log(itemIndex)
 		if(itemIndex !== -1) {
 			let item = {...this.getters.getItem(payload.itemId)};
 			item.groups = [...item.groups, payload.groupId];
-			state.items[itemIndex] = item;
+			state.items.splice(itemIndex, 1, item);
 		}
 	},
 	removeFromGroup(state, payload) {
-		let item = this.getters.getItem(payload.itemId);
-		item.groups.splice(item.groups.indexOf(payload.groupId), 1);
-		state.items[this.getters.getItemIndex(payload.itemId)] = item;
+		let itemIndex = state.items.findIndex( i => i.id === payload.itemId);
+		if(itemIndex !== -1) {
+			let item = {...this.getters.getItem(payload.itemId)};
+			item.groups = item.groups.filter( group => group !== payload.groupId);
+			state.items.splice(itemIndex, 1, item);
+		}
 	},
 	toggleGroupVisibility(state, groupIndex) {
 		state.groups[groupIndex].visible = !state.groups[groupIndex].visible;
+	},
+	toggleUnset(state) {
+		console.log('unset' + state.unset)
+		state.unset = !state.unset;
 	}
 
   },

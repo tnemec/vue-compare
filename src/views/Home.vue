@@ -1,7 +1,9 @@
 <template>
 	<div class="home">
 		<groupPanel></groupPanel>
-
+		<button @click="toggleUnset()">{{unset}}</button>
+		{{filteredItems}} <br/>
+		{{filteredIds}}
 		<table class="item-table">
 			<tr>
 				<th></th>
@@ -14,7 +16,7 @@
 				<th style="width: 100px">Price</th>
 				<th>{{items.length}}</th>
 			</tr>
-			<template   v-for="(row, index) in items">
+			<template   v-for="(row, index) in filteredItems">
 				<itemComponent  v-bind:item="row" v-bind:index="index" /></itemComponent>
 			</template>
 			<tr class="new-item">
@@ -60,19 +62,27 @@
 			items() {
 				return this.$store.state.items;
 			},
-			filteredItems() {
-				return this.$store.state.filteredItems;
+			unset() {
+				return this.$store.state.unset;
 			},
+		  	filteredItems() {
+		  		return this.$store.getters.filteredItems
+		  	},
+		  	filteredIds() {
+		  		return this.filteredItems.map(item => item.id)
+		  	},
 			totalPrice() {
 				let totalPrice = 0;
-				let totalWt = 0;
-				this.items.forEach((item) => {
-					if( item.enabled) {
-						totalPrice += (item.price * item.qty);
-						totalWt += (item.weight * item.qty);
-					}
-				});
-				return totalPrice;
+				let totalWeight = 0;
+				if(this.filteredItems && this.filteredItems.length) {
+					this.filteredItems.forEach((item) => {
+						if( item.enabled) {
+							totalPrice += (item.price * item.qty);
+							totalWeight += (item.weight * item.qty);
+						}
+					});
+				} 
+				return {totalPrice, totalWeight};
 			}
 		},
 		methods: {
@@ -93,6 +103,9 @@
 			},
 			clearLocalStorage() {
 				this.$store.commit('clearLocalStorage');
+			},
+			toggleUnset() {
+				this.$store.commit('toggleUnset');
 			}
 		}
 	}

@@ -2,7 +2,7 @@
 	<tr class="list-item" v-bind:key="index">
   	  <td class="sel">{{index +1}}</td>
 	  <td><groupSelect v-bind:item="newItem" /></td>	  
-	  <td><input type="text" class="item-name" v-model="newItem.name" placeholder="Name" /></td>
+	  <td>{{newItem.id}}<input type="text" class="item-name" v-model="newItem.name" placeholder="Name" /></td>
   	  <td class="specs"><textarea class="item-specs" v-model="newItem.specs" placeholder="Specs" /></td>
   	  <td class="url"><input type="text" class="item-url" v-model="newItem.url" placeholder="URL" /></td>		
 	  <td><input type="text" class="item-weight" v-model="newItem.weight" placeholder="Wt" /></td>
