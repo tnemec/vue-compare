@@ -60,6 +60,9 @@ export default new Vuex.Store({
 		item.id = Date.now();
 		state.items = [...state.items, item]
 	},
+	updateItem(state, item) {
+		state.items.splice(state.items.findIndex(i => i.id === item.id), 1 item);
+	},
 	removeItem(state, itemId) {
 		state.items = state.items.filter(item => item.id !== itemId);
 	},

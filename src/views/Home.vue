@@ -66,7 +66,7 @@
 				return this.$store.state.unset;
 			},
 		  	filteredItems() {
-		  		return this.$store.getters.filteredItems
+		  		return this.$store.getters.filteredItems;
 		  	},
 		  	filteredIds() {
 		  		return this.filteredItems.map(item => item.id)
