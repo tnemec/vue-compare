@@ -61,7 +61,8 @@ export default new Vuex.Store({
 		state.items = [...state.items, item]
 	},
 	updateItem(state, item) {
-		state.items.splice(state.items.findIndex(i => i.id === item.id), 1 item);
+		console.log(item)
+		state.items.splice(state.items.findIndex(i => i.id === item.id), 1, item);
 	},
 	removeItem(state, itemId) {
 		state.items = state.items.filter(item => item.id !== itemId);
@@ -92,8 +93,15 @@ export default new Vuex.Store({
 		state.groups[groupIndex].visible = !state.groups[groupIndex].visible;
 	},
 	toggleUnset(state) {
-		console.log('unset' + state.unset)
 		state.unset = !state.unset;
+	},
+	toggleItemEnabled(state, itemId) {
+		let itemIndex = state.items.findIndex( i => i.id === itemId);
+		if(itemIndex !== -1) {
+			let item = {...this.getters.getItem(itemId)};
+			item.enabled = !item.enabled;
+			state.items.splice(itemIndex, 1, item);
+		}
 	}
 
   },

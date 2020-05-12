@@ -1,20 +1,20 @@
 <template>
 	<div class="home">
 		<groupPanel></groupPanel>
-		<button @click="toggleUnset()">{{unset}}</button>
-		{{filteredItems}} <br/>
-		{{filteredIds}}
+<!-- 		{{filteredItems}} <br/>
+		{{filteredIds}} -->
+		<div class="item-count">{{filteredItems.length}} item{{filteredItems.length > 1 ? 's' : ''}}</div>
 		<table class="item-table">
 			<tr>
-				<th></th>
-				<th style="width: 100px">Group</th>	  
+				<th>&nbsp;</th>
+				<th style="min-width: 80px">Group</th>	  
 				<th>Name</th>
 				<th>Specs</th>
-				<th></th>
-				<th style="width: 100px">Wt</th>
-				<th style="width: 100px">Qty</th>
-				<th style="width: 100px">Price</th>
-				<th>{{items.length}}</th>
+				<th>Link</th>
+				<th>Wt</th>
+				<th>Qty</th>
+				<th>Price</th>
+				<th>&nbsp;</th>
 			</tr>
 			<template   v-for="(row, index) in filteredItems">
 				<itemComponent  v-bind:item="row" v-bind:index="index" /></itemComponent>
@@ -27,8 +27,10 @@
 			
 			<tr>
 				<th colspan="5" class="num"></th>
-				<th colspan="3" class="num">{{totalPrice}}</th>
-				<th></th>
+				<th class="num">{{totalPrice.totalWeight}}</th>
+				<th class="num">{{totalQty}}</th>
+				<th class="num">{{totalPrice.totalPrice | currency}}</th>
+				<th>&nbsp;</th>
 			</tr>
 
 		</table>
@@ -58,13 +60,18 @@
 			itemComponent,
 			groupPanel,
 		},
+		filters: {
+			currency(value) {
+				const decimals = 2;
+				const symbol = "$";
+				return symbol + Math.abs(value).toFixed(decimals);
+			}
+		},
 		computed : {
 			items() {
 				return this.$store.state.items;
 			},
-			unset() {
-				return this.$store.state.unset;
-			},
+
 		  	filteredItems() {
 		  		return this.$store.getters.filteredItems;
 		  	},
@@ -77,12 +84,23 @@
 				if(this.filteredItems && this.filteredItems.length) {
 					this.filteredItems.forEach((item) => {
 						if( item.enabled) {
-							totalPrice += (item.price * item.qty);
-							totalWeight += (item.weight * item.qty);
+							totalPrice += (parseFloat(item.price) * parseFloat(item.qty));
+							totalWeight += (parseFloat(item.weight) * parseFloat(item.qty));
 						}
 					});
 				} 
 				return {totalPrice, totalWeight};
+			},
+			totalQty() {
+				let totalQty = 0;
+				if(this.filteredItems && this.filteredItems.length) {
+					this.filteredItems.forEach((item) => {
+						if( item.enabled) {
+							totalQty += parseFloat(item.qty);
+						}
+					});
+				} 	
+				return totalQty;			
 			}
 		},
 		methods: {
@@ -104,9 +122,6 @@
 			clearLocalStorage() {
 				this.$store.commit('clearLocalStorage');
 			},
-			toggleUnset() {
-				this.$store.commit('toggleUnset');
-			}
 		}
 	}
 </script>
@@ -152,8 +167,17 @@
 	}
 	.item-table .del b {
 		display: inline-block;
+		text-align: center;
+		line-height: 32px;
 		width: 32px;
 		height: 32px;
 		cursor: pointer;
+	}
+	.item-table .del b:hover {
+		background-color: #ffb3b3;
+	}
+	a {
+		cursor: pointer;
+		color: #1e60c1;
 	}
 </style>

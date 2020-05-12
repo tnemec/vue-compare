@@ -1,7 +1,7 @@
 <template>
-	<div id="group-select">
+	<div class="group-select">
 		<div v-for="(group, index) of groups">
-			<input type="checkbox" value="null" v-bind:checked="isMember(group.id)" @click.prevent:="toggleChecked(group.id)">{{group.name}} {{isMember(group.id)}}
+			<input type="checkbox" value="null" v-bind:checked="isMember(group.id)" @click.prevent:="toggleChecked(group.id)">{{group.name}}
 		</div>
 	</div>
 </template>
@@ -46,3 +46,9 @@ export default {
 	}
 }
 </script>
+
+<style>
+	.group-select {
+		display: flex;
+	}
+</style>
