@@ -3,7 +3,7 @@
 		<groupPanel></groupPanel>
 <!-- 		{{filteredItems}} <br/>
 		{{filteredIds}} -->
-		<div class="item-count">{{filteredItems.length}} item{{filteredItems.length > 1 ? 's' : ''}}</div>
+		<div class="item-count">{{filteredItems.length}} item{{filteredItems.length > 1 || !filteredItems.length ? 's' : ''}}</div>
 		<table class="item-table">
 			<tr>
 				<th>&nbsp;</th>
@@ -17,7 +17,7 @@
 				<th>&nbsp;</th>
 			</tr>
 			<template   v-for="(row, index) in filteredItems">
-				<itemComponent  v-bind:item="row" v-bind:index="index" /></itemComponent>
+				<itemComponent  v-bind:item="row" v-bind:index="index" v-bind:key="row.id" /></itemComponent>
 			</template>
 			<tr class="new-item">
 				<td colspan="9">
@@ -32,6 +32,7 @@
 				<th class="num">{{totalPrice.totalPrice | currency}}</th>
 				<th>&nbsp;</th>
 			</tr>
+			<totals />
 
 		</table>
 
@@ -48,6 +49,7 @@
 <script>
 	import itemComponent from '../components/itemComponent';
 	import groupPanel from '../components/groupPanel';
+	import totals from '../components/totals';
 
 
 	export default {
@@ -59,6 +61,7 @@
 		components: {
 			itemComponent,
 			groupPanel,
+			totals,
 		},
 		filters: {
 			currency(value) {

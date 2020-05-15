@@ -3,12 +3,24 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex);
 
+const randomColor = () => {
+	// return random hex color but only darker colors.
+	const makeColor = () => {
+		return Math.floor(Math.random() * 120);
+	}
+	let color = '';
+	for( let i = 0; i < 2; i++) {
+		color += makeColor();
+	}
+	return '#' + color.toString(16);
+};
+
 export default new Vuex.Store({
   state: {
   	items: [],
   	groups: [
-  		{id: 0, name: 'G1', visible: true},
-  		{id: 1, name: 'G2', visible: true},
+  		{id: 0, name: 'G1', color: '#5A7D7C', visible: true},
+  		{id: 1, name: 'G2', color: '#E76F51', visible: true},
   	],
   	unset: false, // should show items that are not in any groups
   	suppliers: {},
@@ -28,31 +40,33 @@ export default new Vuex.Store({
 	},
 	filteredItems(state){
 	let groups = state.groups;
-		return state.items.filter(item => {
-			let show = false;
-			for( let i = 0 ; i < groups.length; i++ ) {
-				if (groups[i].visible && item.groups.indexOf(groups[i].id) !== -1) {
-					show = true;
+		if(groups && state.items) {
+			return state.items.filter(item => {
+				let show = false;
+				for( let i = 0 ; i < groups.length; i++ ) {
+					if (groups[i].visible && item.groups && item.groups.indexOf(groups[i].id) !== -1) {
+						show = true;
+					}
 				}
-			}
-			// return items with no groups selected if unset is true
-			return show || state.unset;
-		});
+				// return items with no groups selected if unset is true
+				return show || state.unset;
+			});
+		}
 	},
   },
   mutations: {
 	initialiseStore(state) {
 		// Check if the ID exists
-		/*
-		if(localStorage.getItem('store')) {
+		
+		if(localStorage.getItem('vueCompare-store')) {
 			this.replaceState(
 				Object.assign(state, JSON.parse(window.localStorage.getItem('store')))
 			);
 		}
-		*/
+		
 	},
 	clearLocalStorage(state) {
-		window.localStorage.removeItem('store');
+		window.localStorage.removeItem('vueCompare-store');
 
 	},
 	addItem(state) {
@@ -61,7 +75,6 @@ export default new Vuex.Store({
 		state.items = [...state.items, item]
 	},
 	updateItem(state, item) {
-		console.log(item)
 		state.items.splice(state.items.findIndex(i => i.id === item.id), 1, item);
 	},
 	removeItem(state, itemId) {
@@ -71,7 +84,13 @@ export default new Vuex.Store({
 		state.items = [];
 	},
 	newGroup(state) {
-		state.groups = [...{id: Date.now(), name: 'new group', visible: true}];
+		state.groups.push({id: Date.now(), name: 'G' + (state.groups.length + 1), color: randomColor(), visible: true});
+	},
+	deleteGroup(state, groupId) {
+		state.items = state.items.map( item => {
+			item.groups = item.groups.filter( group => group.id !== groupId);
+		});
+		state.groups = state.groups.filter( group => group.id !== groupId);
 	},
 	addToGroup(state, payload) {
 		let itemIndex = state.items.findIndex( i => i.id === payload.itemId);

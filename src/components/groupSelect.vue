@@ -1,6 +1,6 @@
 <template>
 	<div class="group-select">
-		<div v-for="(group, index) of groups">
+		<div v-for="(group, index) of groups"  v-bind:style="{color: group.color}">
 			<input type="checkbox" value="null" v-bind:checked="isMember(group.id)" @click.prevent:="toggleChecked(group.id)">{{group.name}}
 		</div>
 	</div>
@@ -15,7 +15,6 @@ export default {
 	props: ['item'],
 	data() {
 		return {
-			
 		}
 	},
 	mounted() {
@@ -25,23 +24,25 @@ export default {
 		groups() {
 			return this.$store.state.groups;
 		},
-		thisItem() {
-			return this.$store.getters.getItem(this.item.id);
-		}
 	},
 	methods: {
 		toggleGroup(index) {
 			this.$store.commit('toggleGroupVisibility', index);
 		},
 		isMember(groupId) {
-			return this.thisItem && this.thisItem.groups.indexOf(groupId) !== -1;
+			return this.item  && this.item.groups.indexOf(groupId) !== -1;
 		},
 		toggleChecked(groupId) {
+			let i = {...this.item};
 			if(this.isMember(groupId)) {
-				this.$store.commit('removeFromGroup', {groupId, itemId: this.item.id});
+				// remove
+				i.groups = this.item.groups.filter( grp => grp !== groupId) || [];
 			} else {
-				this.$store.commit('addToGroup', {groupId, itemId: this.item.id});
+				// add
+				i.groups.push(groupId);
 			}
+			this.$store.commit('updateItem', i);
+			this.$emit('updateParentGroups', i.groups)
 		}
 	}
 }
