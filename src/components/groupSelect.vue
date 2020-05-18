@@ -1,6 +1,6 @@
 <template>
 	<div class="group-select">
-		<div v-for="(group, index) of groups"  v-bind:style="{color: group.color}">
+		<div v-for="(group, index) of groups"  v-bind:style="{color: group.color}" v-bind:key="group.id">
 			<input type="checkbox" value="null" v-bind:checked="isMember(group.id)" @click.prevent:="toggleChecked(group.id)">{{group.name}}
 		</div>
 	</div>
@@ -41,8 +41,7 @@ export default {
 				// add
 				i.groups.push(groupId);
 			}
-			this.$store.commit('updateItem', i);
-			this.$emit('updateParentGroups', i.groups)
+			this.$parent.updateGroup(i.groups);
 		}
 	}
 }

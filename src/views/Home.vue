@@ -1,8 +1,6 @@
 <template>
 	<div class="home">
 		<groupPanel></groupPanel>
-<!-- 		{{filteredItems}} <br/>
-		{{filteredIds}} -->
 		<div class="item-count">{{filteredItems.length}} item{{filteredItems.length > 1 || !filteredItems.length ? 's' : ''}}</div>
 		<table class="item-table">
 			<tr>
@@ -16,22 +14,13 @@
 				<th>Price</th>
 				<th>&nbsp;</th>
 			</tr>
-			<template   v-for="(row, index) in filteredItems">
-				<itemComponent  v-bind:item="row" v-bind:index="index" v-bind:key="row.id" /></itemComponent>
-			</template>
+			<itemComponent  v-for="(row, index) in filteredItems" v-bind:key="row.id" v-bind:item="row" v-bind:index="index" /></itemComponent>
 			<tr class="new-item">
 				<td colspan="9">
 					<a class="btn" @click="newItem()">New Item</a>
 				</td>
 			</tr>
 			
-			<tr>
-				<th colspan="5" class="num"></th>
-				<th class="num">{{totalPrice.totalWeight}}</th>
-				<th class="num">{{totalQty}}</th>
-				<th class="num">{{totalPrice.totalPrice | currency}}</th>
-				<th>&nbsp;</th>
-			</tr>
 			<totals />
 
 		</table>
@@ -81,30 +70,6 @@
 		  	filteredIds() {
 		  		return this.filteredItems.map(item => item.id)
 		  	},
-			totalPrice() {
-				let totalPrice = 0;
-				let totalWeight = 0;
-				if(this.filteredItems && this.filteredItems.length) {
-					this.filteredItems.forEach((item) => {
-						if( item.enabled) {
-							totalPrice += (parseFloat(item.price) * parseFloat(item.qty));
-							totalWeight += (parseFloat(item.weight) * parseFloat(item.qty));
-						}
-					});
-				} 
-				return {totalPrice, totalWeight};
-			},
-			totalQty() {
-				let totalQty = 0;
-				if(this.filteredItems && this.filteredItems.length) {
-					this.filteredItems.forEach((item) => {
-						if( item.enabled) {
-							totalQty += parseFloat(item.qty);
-						}
-					});
-				} 	
-				return totalQty;			
-			}
 		},
 		methods: {
 			newItem() {

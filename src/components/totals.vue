@@ -1,12 +1,12 @@
 <template>
 	<Fragment>
 		<tr class="totals-row" v-for="grp in filteredItemsByGroup" v-bind:style="{backgroundColor: grp.color}">
-			<th colspan="5" class="num">{{grp.name}} {{grp.itemCount}} item{{grp.itemCount > 1 || !grp.itemCount? 's' : 
+			<th colspan="5" class="num">{{grp.itemCount}} item{{grp.itemCount > 1 || !grp.itemCount? 's' : 
 			''}}</th>
 			<th class="num">{{grp.totalWeight}}</th>
 			<th class="num">{{grp.totalQty}}</th>
 			<th class="num">{{grp.totalPrice | currency}}</th>
-			<th>&nbsp;</th>
+			<th>{{grp.name}} </th>
 		</tr>
 	</Fragment>
 </template>
@@ -79,5 +79,8 @@ export default {
 	.item-table .totals-row > th {
 		background: inherit;
 		color: #FFF;
+	}
+	.totals-row th {
+		padding: 0 6px;
 	}
 </style>

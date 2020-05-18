@@ -15,6 +15,8 @@ const randomColor = () => {
 	return '#' + color.toString(16);
 };
 
+const localStorageKey = 'vueCompare-store'; // sets the name of the key used in localStorage object
+
 export default new Vuex.Store({
   state: {
   	items: [],
@@ -27,6 +29,9 @@ export default new Vuex.Store({
   	baseItem: {name:'',id:0,url:'',specs:'',qty:1,price:0,weight:0,groups:[0],attributes:[],supplier:null,enabled:true},
   },
   getters: {
+  	getLocalStorageKey: () => {
+  		return localStorageKey;
+  	},
   	getItem: (state) => (itemId) => {
 		return state.items.find( item => item.id === itemId);
 	},
@@ -56,23 +61,28 @@ export default new Vuex.Store({
   },
   mutations: {
 	initialiseStore(state) {
-		// Check if the ID exists
+		// restore state from the browser's localStorage object
 		
-		if(localStorage.getItem('vueCompare-store')) {
-			this.replaceState(
-				Object.assign(state, JSON.parse(window.localStorage.getItem('store')))
-			);
-		}
+		// if(localStorage.getItem(localStorageKey)) {
+		// 	try {
+		// 		this.replaceState(
+		// 			Object.assign(state, JSON.parse(window.localStorage.getItem(localStorageKey)))
+		// 		);
+		// 		console.log('state initialzed from localStorage')
+		// 	} catch(e) {
+		// 		console.log("Error: failed to initialze state from LocalStorage: " + e)
+		// 	}
+		// }
 		
 	},
 	clearLocalStorage(state) {
-		window.localStorage.removeItem('vueCompare-store');
-
+		window.localStorage.removeItem(localStorageKey);
 	},
 	addItem(state) {
-		let item = {...state.baseItem}
-		item.id = Date.now();
-		state.items = [...state.items, item]
+		// deep clone baseItem as the template for the new item
+		let newItem = JSON.parse(JSON.stringify(state.baseItem));
+		newItem.id = Date.now();
+		state.items.push(newItem);
 	},
 	updateItem(state, item) {
 		state.items.splice(state.items.findIndex(i => i.id === item.id), 1, item);
@@ -92,22 +102,6 @@ export default new Vuex.Store({
 		});
 		state.groups = state.groups.filter( group => group.id !== groupId);
 	},
-	addToGroup(state, payload) {
-		let itemIndex = state.items.findIndex( i => i.id === payload.itemId);
-		if(itemIndex !== -1) {
-			let item = {...this.getters.getItem(payload.itemId)};
-			item.groups = [...item.groups, payload.groupId];
-			state.items.splice(itemIndex, 1, item);
-		}
-	},
-	removeFromGroup(state, payload) {
-		let itemIndex = state.items.findIndex( i => i.id === payload.itemId);
-		if(itemIndex !== -1) {
-			let item = {...this.getters.getItem(payload.itemId)};
-			item.groups = item.groups.filter( group => group !== payload.groupId);
-			state.items.splice(itemIndex, 1, item);
-		}
-	},
 	toggleGroupVisibility(state, groupIndex) {
 		state.groups[groupIndex].visible = !state.groups[groupIndex].visible;
 	},
@@ -117,7 +111,7 @@ export default new Vuex.Store({
 	toggleItemEnabled(state, itemId) {
 		let itemIndex = state.items.findIndex( i => i.id === itemId);
 		if(itemIndex !== -1) {
-			let item = {...this.getters.getItem(itemId)};
+			let item = {...this.getters.getItem(itemId), };
 			item.enabled = !item.enabled;
 			state.items.splice(itemIndex, 1, item);
 		}

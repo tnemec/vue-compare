@@ -13,13 +13,13 @@ export default {
   name: 'App',
   components: {Home},
   beforeCreate() {
-    this.$store.commit('initialiseStore');
+    this.$store.commit('initialiseStore'); // load state from localStorage
   },
   created() {
     // Subscribe to store updates
     this.$store.subscribe((mutation, state) => {
       // Store the state object as a JSON string
-      window.localStorage.setItem('store', JSON.stringify(state));
+      window.localStorage.setItem(this.$store.getters.getLocalStorageKey, JSON.stringify(state));
     });
   }
 }
