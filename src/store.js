@@ -1,19 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import {randomRGBColor} from './utilities'
 
 Vue.use(Vuex);
 
-const randomColor = () => {
-	// return random hex color but only darker colors.
-	const makeColor = () => {
-		return Math.floor(Math.random() * 120);
-	}
-	let color = '';
-	for( let i = 0; i < 2; i++) {
-		color += makeColor();
-	}
-	return '#' + color.toString(16);
-};
 
 const localStorageKey = 'vueCompare-store'; // sets the name of the key used in localStorage object
 
@@ -94,15 +84,21 @@ export default new Vuex.Store({
 		state.items = [];
 	},
 	newGroup(state) {
-		state.groups.push({id: Date.now(), name: 'G' + (state.groups.length + 1), color: randomColor(), visible: true});
+		state.groups.push({id: Date.now(), name: 'G' + (state.groups.length + 1), color: randomRGBColor(), visible: true});
+	},
+	updateGroup(state, group) {
+		state.groups.splice(state.groups.findIndex(g => g.id === group.id), 1, group);
 	},
 	deleteGroup(state, groupId) {
 		state.items = state.items.map( item => {
 			item.groups = item.groups.filter( group => group.id !== groupId);
+			return item;
 		});
+		console.log(state.items)
 		state.groups = state.groups.filter( group => group.id !== groupId);
 	},
-	toggleGroupVisibility(state, groupIndex) {
+	toggleGroupVisibility(state, groupId) {
+		const groupIndex = state.groups.findIndex(g => g.id === groupId);
 		state.groups[groupIndex].visible = !state.groups[groupIndex].visible;
 	},
 	toggleUnset(state) {
