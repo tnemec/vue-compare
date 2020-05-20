@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {randomRGBColor} from './utilities'
+
 
 Vue.use(Vuex);
 
@@ -11,8 +11,8 @@ export default new Vuex.Store({
   state: {
   	items: [],
   	groups: [
-  		{id: 0, name: 'G1', color: '#5A7D7C', visible: true},
-  		{id: 1, name: 'G2', color: '#E76F51', visible: true},
+  		{id: 0, name: 'G1', color: 'rgb(47, 113, 115)', visible: true},
+  		{id: 1, name: 'G2', color: 'rgb(231, 111, 81)', visible: true},
   	],
   	unset: false, // should show items that are not in any groups
   	suppliers: {},
@@ -83,8 +83,8 @@ export default new Vuex.Store({
 	removeAllItems(state) {
 		state.items = [];
 	},
-	newGroup(state) {
-		state.groups.push({id: Date.now(), name: 'G' + (state.groups.length + 1), color: randomRGBColor(), visible: true});
+	newGroup(state, color) {
+		state.groups.push({id: Date.now(), name: 'G' + (state.groups.length + 1), color: color, visible: true});
 	},
 	updateGroup(state, group) {
 		state.groups.splice(state.groups.findIndex(g => g.id === group.id), 1, group);

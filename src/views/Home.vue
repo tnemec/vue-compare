@@ -1,34 +1,38 @@
 <template>
 	<div class="home">
 		<groupPanel></groupPanel>
-		<div class="item-count">{{filteredItems.length}} item{{filteredItems.length > 1 || !filteredItems.length ? 's' : ''}}</div>
-		<table class="item-table">
-			<tr>
-				<th>&nbsp;</th>
-				<th style="min-width: 80px">Group</th>	  
-				<th>Name</th>
-				<th>Specs</th>
-				<th>Link</th>
-				<th>Wt</th>
-				<th>Qty</th>
-				<th>Price</th>
-				<th>&nbsp;</th>
-			</tr>
-			<itemComponent  v-for="(row, index) in filteredItems" v-bind:key="row.id" v-bind:item="row" v-bind:index="index" /></itemComponent>
-			<tr class="new-item">
-				<td colspan="9">
-					<a class="btn" @click="newItem()">New Item</a>
-				</td>
-			</tr>
-			
-			<totals />
+		<div class="item-panel panel">
+			<div class="item-count title">{{filteredItems.length}} item{{filteredItems.length > 1 || !filteredItems.length ? 's' : ''}}</div>
+			<table class="item-table">
+				<tr>
+					<th>&nbsp;</th>
+					<th style="min-width: 80px">Group</th>	  
+					<th>Name</th>
+					<th>Specs</th>
+					<th>Link</th>
+					<th>Wt</th>
+					<th>Qty</th>
+					<th>Price</th>
+					<th>&nbsp;</th>
+				</tr>
+				<itemComponent  v-for="(row, index) in filteredItems" v-bind:key="row.id" v-bind:item="row" v-bind:index="index" /></itemComponent>
+				<tr class="new-item">
+					<td colspan="9">
+						<a class="btn" @click="newItem()">New Item</a>
+					</td>
+				</tr>
+				
+				<totals />
 
-		</table>
+			</table>
 
 
-		<div>
-			<a class="btn" @click="clearItems()">Clear Items</a>
+			<div>
+				<a class="btn" @click="clearItems()">Clear Items</a>
+			</div>
+
 		</div>
+
 		<div>
 			<a class="btn" @click="clearLocalStorage()">Clear Local Storage</a>
 		</div>
@@ -96,6 +100,10 @@
 
 <style>
 
+	.home {
+		padding: 24px;
+	}
+
 	.item-table {
 		width: 100%;
 		border-collapse: collapse;
@@ -144,8 +152,5 @@
 	.item-table .del b:hover {
 		background-color: #ffb3b3;
 	}
-	a {
-		cursor: pointer;
-		color: #1e60c1;
-	}
+
 </style>

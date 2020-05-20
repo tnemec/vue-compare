@@ -1,26 +1,67 @@
-const randomColor = () => {
-	// return random rgb color but only darker colors.
-	const makeColor = () => {
-		const min = 45;
-		const max = 185;
-		return Math.floor(Math.random() * (max - min) + min);
+// const randomColor = () => {
+// 	// return random rgb color but only darker colors.
+
+// 	const makeColor = (min, max) => {	
+// 		const minVal = min || 45;
+// 		const maxVal = max || 185;
+// 		return Math.floor(Math.random() * (max - min) + min);
+// 	}
+// 	let colors = [];
+// 	for( let i = 0; i < 3; i++) {
+// 		colors.push(makeColor());
+// 	}
+// 	return colors;
+// };
+
+// const RGB_Linear_Shade=(p,c)=>{
+//     var i=parseInt,r=Math.round,[a,b,c,d]=c.split(","),P=p<0,t=P?0:255*p,P=P?1+p:1-p;
+//     return"rgb"+(d?"a(":"(")+r(i(a[3]=="a"?a.slice(5):a.slice(4))*P+t)+","+r(i(b)*P+t)+","+r(i(c)*P+t)+(d?","+d:")");
+// }
+
+// const randomRGBColor = () => {
+// 	const colors = randomColor();
+// 	return 'rgb(' + colors.join(',') + ')';
+// };
+
+// const randomHexColor = () => {
+// 	const colors = randomColor();
+// 	return '#' + colors.map( c => c.toString(16)).join('');
+// }
+
+
+export default {
+	name: 'utilities',
+	methods : {
+		randomColor() {
+			// return random rgb color but only darker colors.
+
+			const makeColor = (min, max) => {	
+				const minVal = min || 45;
+				const maxVal = max || 185;
+				return Math.floor(Math.random() * (maxVal - minVal) + minVal);
+			}
+			let colors = [];
+			for( let i = 0; i < 3; i++) {
+				colors.push(makeColor());
+			}
+			return colors;
+		},
+		RGBLinearShade(p,c){
+		    var i=parseInt,r=Math.round,[a,b,c,d]=c.split(","),P=p<0,t=P?0:255*p,P=P?1+p:1-p;
+		    return"rgb"+(d?"a(":"(")+r(i(a[3]=="a"?a.slice(5):a.slice(4))*P+t)+","+r(i(b)*P+t)+","+r(i(c)*P+t)+(d?","+d:")");
+		},
+		randomRGBColor(){
+			const colors = this.randomColor();
+			return 'rgb(' + colors.join(',') + ')';
+		},
+		randomHexColor(){
+			const colors = this.randomColor();
+			return '#' + colors.map( c => c.toString(16)).join('');
+		},
+		makeGradient(baseColor) {
+			return 'linear-gradient(to bottom, '+ this.RGBLinearShade(0.15, baseColor)  + ' 5%, '+ this.RGBLinearShade(-0.15, baseColor) +' 100%)';
+		},
 	}
-	let colors = [];
-	for( let i = 0; i < 3; i++) {
-		colors.push(makeColor());
-	}
-	return colors;
+
 };
 
-const randomRGBColor = () => {
-	const colors = randomColor();
-	return 'rgba(' + colors.join(',') + ')';
-};
-
-const randomHexColor = () => {
-	const colors = randomColor();
-	return '#' + colors.map( c => c.toString(16)).join('');
-}
-
-
-export {randomRGBColor, randomHexColor}

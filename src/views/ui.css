@@ -1,0 +1,93 @@
+
+
+
+body, html {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+body {
+	background-color: #7f878c;
+}
+
+body, p, td, th, textarea, div, input {font-family: "Helvetica Neue", "Neue Helvetica eText W02", Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.3em; color: #E8E8E8;font-style:normal;}
+
+.lightfont {font-weight:200;}
+
+
+h1,h2,h3,h4,h5,h6 {margin:0; font-weight:700;color: #222222;}
+
+
+h1 { font-size: 26px;font-style:normal; font-weight: 200; line-height: 1; margin-bottom: 12px; color:#444444;font-family: "Helvetica Neue", "Neue Helvetica eText W02", Helvetica, Arial, sans-serif; }
+h2 { font-size: 20px; line-height: 1; margin-bottom: 12px;  color:#444444}
+h3 { font-size: 18px; line-height: 1; margin-bottom: 8px;  color:#444444}
+h4 { font-size: 17px; line-height: 1; margin-bottom: 8px;  color:#333333}
+h5 { font-size: 16px; line-height: 1; margin-bottom: 8px;  color:#333333}
+h6 { font-size: 14px; line-height: 1; margin-bottom: 8px; }
+
+p {line-height: 1.5em; margin:0; margin-bottom:16px;}
+p:last-child { margin-bottom:0.2em;}
+
+strong, b {font-weight: 700;}
+em, i {font-style: italic}
+
+sub, sup {position: relative; font-size: 75%; line-height: 0; vertical-align: baseline;}
+sup {top: -0.5em;}
+sub { bottom: -0.25em;}
+
+
+a,
+a:active,
+a:visited,
+a:hover {
+	cursor: pointer;
+	color: #57beee;
+}
+a:hover {
+	text-decoration: underline;
+}
+
+.btn {
+	box-shadow:inset 0px 1px 0px 0px #9fa6ad;
+	background: linear-gradient(to bottom, #848e91 5%, #545759 100%);
+	background-color: #6f7679;
+	border-radius:2px;
+	border:1px solid #545454;
+	display:inline-block;
+	cursor:pointer;
+	color:#E8E8E8;
+	font-size:13px;
+	padding: 2px 6px;
+	margin: 0 4px 4px 0;
+	text-decoration:none;
+	text-shadow:-1px -1px 0px #494f57;
+}
+a.btn:hover {
+	text-decoration: none;
+	color: #E8E8E8;
+}
+
+.panel {
+	background: #71787d;
+	padding: 4px;
+	margin-bottom: 8px;
+	box-shadow: inset 2px 2px 0 0 #6c7479;
+	border-right: 1px solid #858e94;
+	border-bottom: 1px solid #858e94;
+	border-radius: 6px 2px 2px 2px;
+}
+
+.panel .title {
+	padding: 3px 24px 3px 8px;
+	margin: -5px 4px 4px -4px;
+	display: inline-block;
+	background: #3e4d5c;
+	border-radius: 6px 0px 2px 2px;
+}
+
+.panel .top-row {
+	display: inline-block;
+	padding: 3px 0 3px 0;
+	margin: -5px 4px 0px 4px;	
+}

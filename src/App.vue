@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Header />
     <Home />
     
   </div>
@@ -7,11 +8,16 @@
 
 <script>
 import Home from './views/Home.vue'
+  import Header from './components/Header'
+import './views/ui.css'
 
 
 export default {
   name: 'App',
-  components: {Home},
+  components: {
+    Home,
+    Header,
+  },
   beforeCreate() {
     this.$store.commit('initialiseStore'); // load state from localStorage
   },

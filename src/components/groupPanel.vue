@@ -1,13 +1,16 @@
 <template>
-	<div class="group-panel">
-		Groups:
+	<div class="group-panel panel">
+		<div class="title">Groups</div>
+		<div class="top-row group-buttons">
+			<a class="btn" @click="newGroup">+</a>
+			<a class="btn edit" @click="editMode">Edit</a>			
+		</div>
 		<div class="group-buttons">
 			<div v-for="group of groups" :key="group.id">
-				<a @click="toggleGroup(group.id)" class="btn grp" v-bind:class="{'disabled': !group.visible}" v-bind:style="{backgroundColor: group.color}" >{{group.name}}</a>
+				<ColorBtn @click.native="toggleGroup(group.id)" v-bind:baseColor="group.color" v-bind:disabled="!group.visible">{{group.name}}</ColorBtn>
 			</div>
-			<a class="btn" @click="newGroup">+</a>
-			<a class="btn edit" @click="editMode"></a>
-			<a class="btn" @click="toggleUnset"  v-bind:class="{'visible': unset}">Ungrouped</a>
+
+			<a class="btn" @click="toggleUnset"  v-bind:class="{'disabled': !unset}">Ungrouped</a>
 		</div>
 		<div class="group-edit" v-bind:class="{'show' : editing}">
 			<a class="close" @click="closeEdit">&times;</a>
@@ -31,16 +34,21 @@
 
 <script>
 import swatches from './swatches.vue'
+import ColorBtn from './colorButton'
+import utilities from '../utilities'
 
 export default {
 	name: 'groupPanel',
-	components: {swatches},
+	components: {swatches, ColorBtn},
 	data() {
 		return {
 			editing: false,
 			tempGroup: {id: undefined},
 		}
 	},
+	mixins: [
+		utilities,
+	],
 	mounted() {
 
 	},
@@ -60,7 +68,7 @@ export default {
 			this.$store.commit('toggleUnset');
 		},
 		newGroup() {
-			this.$store.commit('newGroup');
+			this.$store.commit('newGroup', this.randomRGBColor());
 		},
 		editMode() {
 			this.editing = !this.editing;
@@ -100,36 +108,28 @@ export default {
 		display: flex;
 	}
 
-	.group-panel .group-buttons .btn {
-		padding: 2px 6px;
-		margin: 0 4px;
-		display: inline-block;
-		background-color: #DDD;
-		color: #333;
-	}
-	.group-panel .group-buttons .btn.grp {
-		background-color: #19b0d2;
-		color: #FFF;		
-	}
-
 	.group-panel .group-buttons .btn.disabled {
-		background-color: #999 !important;
-		color: #665;		
+		background: #999 !important;
+		color: #665;
+		text-shadow: none !important;
+		box-shadow: none !important;	
 	}
 
 	.btn.edit {
-		background-image: url('../assets/Edit_icon.svg');
+		background: url('../assets/Edit_icon_light.svg'), linear-gradient(to bottom, #848e91 5%, #545759 100%);	
 		background-repeat: no-repeat;
 		background-position: 50% 50%;
-	    background-size: 20px;		
-	    width: 16px;
-	    height: 20px;
+	    background-size: 26px;		
+	    text-indent: -999px;
+	    min-width: 14px;
 	}
 	.group-edit {
 		display: none;
 		position: relative;
 		max-width: 200px;
-		border: 1px solid #999;
+		color: #333;
+		background: #cccccc;
+		border: 1px solid #585858;
 		border-radius: 3px;
 		padding: 4px;
 		margin-top: 4px;
@@ -144,6 +144,7 @@ export default {
 		right: 2px;
 		width: 20px;
 		height: 20px;
+		color: #333;
 	    font-size: 20px;
 		line-height: 20px;
 		text-align: center;
@@ -152,6 +153,12 @@ export default {
 		font-size: 14px;
 		padding: 0 4px;
 		margin-right: 2px;
+		background: none;
+		background-color: none;
+		border: none;
+		box-shadow: none;
+		text-shadow: none;
+		color: #333;
 	}
 	.group-edit .delete {
 		color: #b32400;

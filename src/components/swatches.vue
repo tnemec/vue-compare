@@ -6,7 +6,7 @@
  
 <script>
   import VSwatches from 'vue-swatches'
-  import {randomHexColor} from '../utilities'
+  import utilities from '../utilities'
  
   // Import the styles too, globally
   import "vue-swatches/dist/vue-swatches.css"
@@ -15,6 +15,7 @@
     name: 'swatches',
     components: { VSwatches }, 
     props: ['startColor', 'groupId'],
+    mixins: [utilities],
     data () {
       return {
         color: this.startColor,
@@ -38,7 +39,7 @@
       const numColors = 24;
       let arr = [];
       for(let i = 0; i < numColors; i++) {
-        arr.push(randomHexColor());
+        arr.push(this.randomHexColor());
       }
       this.swatches = arr;
       this.thisGroupId = this.groupId
