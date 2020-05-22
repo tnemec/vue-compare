@@ -5,13 +5,34 @@
 	  	  <div class="col1 sel">
 	  	  		<Checkbox v-bind:checked="item.enabled" @click.native.prevent="toggleEnabled">{{index +1}}</Checkbox>
 	  	  </div>
-		  <div class="col2"><groupSelect v-bind:item="newItem" /></div>	  
-		  <div class="col3"><input type="text" class="item-name" v-model="newItem.name" placeholder="Name" @blur="updateItem" /></div>
-	  	  <div class="col4 specs"><textarea class="item-specs" v-model="newItem.specs" placeholder="Specs" @blur="updateItem" /></div>
-	  	  <div class="col5 url"><input type="text" class="item-url" v-model="newItem.url" placeholder="URL" @blur="updateItem" /></div>		
-		  <div class="col6"><input type="text" class="item-weight" v-model="newItem.weight" placeholder="Wt" @blur="updateItem" @focus="select" /></div>
-		  <div class="col7"><input type="text" class="item-qty" v-model="newItem.qty" placeholder="Qty" @blur="updateItem" @focus="select" /></div>
-		  <div class="col8"><input type="text" class="item-price" v-model="priceFormatted" placeholder="Price" @blur="updateItem" @focus="selectPrice" /></div>
+		  <div class="col2">
+		  	<div class="row-label">Group</div>
+		  	<groupSelect v-bind:item="newItem" />
+		  </div>	  
+		  <div class="col3">
+		  	<div class="row-label">Name</div>
+		  	<input type="text" class="item-name" v-model="newItem.name" placeholder="Name" @blur="updateItem" />
+		  </div>
+	  	  <div class="col4 specs">
+	  	  	<div class="row-label">Specs</div>
+	  	  	<textarea class="item-specs" v-model="newItem.specs" placeholder="Specs" @blur="updateItem" />
+	  	  </div>
+	  	  <div class="col5 url">
+	  	  	<div class="row-label">Link</div>
+	  	  	<input type="text" class="item-url" v-model="newItem.url" placeholder="URL" @blur="updateItem" />
+	  	  </div>		
+		  <div class="col6">
+		  	<div class="row-label">Wt.</div>
+		  	<input type="text" class="item-weight" v-model="newItem.weight" placeholder="Wt" @blur="updateItem" @focus="select" />
+		  </div>
+		  <div class="col7">
+		  	<div class="row-label">Qty.</div>
+		  	<input type="text" class="item-qty" v-model="newItem.qty" placeholder="Qty" @blur="updateItem" @focus="select" />
+		  </div>
+		  <div class="col8">
+		  	<div class="row-label">Price</div>
+		  	<input type="text" class="item-price" v-model="priceFormatted" placeholder="Price" @blur="updateItem" @focus="selectPrice" />
+		  </div>
 		  <div class="col9 del"><b class="delete" @click="removeItem">X</b></div>
 	  </div>
 	</div>

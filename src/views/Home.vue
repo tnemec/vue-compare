@@ -219,5 +219,20 @@
 	.item-table .del b:hover {
 		background-color: #da3737;
 	}
+	.item-table .row-label {
+		display: none;
+		font-size: 12px;
+		color: #D4D4D4;
+	}
+
+	@media only screen and (max-width:1000px) {
+		/* breakpoint for table */
+		.item-table .row-header {
+			display: none;
+		}
+		.item-table .row-label {
+			display: block;
+		}
+	}
 
 </style>
