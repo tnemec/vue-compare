@@ -31,6 +31,13 @@
 
 export default {
 	name: 'utilities',
+	filters: {
+	currency(value) {
+		const decimals = 2;
+		const symbol = "$";
+		return symbol + Math.abs(value).toFixed(decimals);
+	}
+	},
 	methods : {
 		randomColor() {
 			// return random rgb color but only darker colors.

@@ -1,7 +1,7 @@
 <template>
 	<div class="group-select">
-		<div v-for="(group, index) of groups"  v-bind:style="{color: group.color}" v-bind:key="group.id">
-			<input type="checkbox" value="null" v-bind:checked="isMember(group.id)" @click.prevent:="toggleChecked(group.id)">{{group.name}}
+		<div class="item" v-for="(group, index) of groups"  v-bind:key="group.id">
+			<Checkbox v-bind:checked="isMember(group.id)" @click.native.prevent="toggleChecked(group.id)"><span class="label"  v-bind:style="[isMember(group.id) ? {backgroundColor: group.color} : {backgroundColor: 'transparent'}]">{{group.name}}</span></Checkbox>
 		</div>
 	</div>
 </template>
@@ -9,10 +9,14 @@
 
 
 <script>
+import Checkbox from './Checkbox'
+import utilities from '../utilities'
 
 export default {
 	name: 'groupSelect',
 	props: ['item'],
+	components: {Checkbox},
+	mixins: [utilities],
 	data() {
 		return {
 		}
@@ -22,7 +26,7 @@ export default {
 	},
 	computed: {
 		groups() {
-			return this.$store.state.groups;
+			return this.$store.getters.getGroups;
 		},
 	},
 	methods: {
@@ -33,16 +37,16 @@ export default {
 			return this.item  && this.item.groups.indexOf(groupId) !== -1;
 		},
 		toggleChecked(groupId) {
-			let i = {...this.item};
+			let groups = [...this.item.groups];
 			if(this.isMember(groupId)) {
 				// remove
-				i.groups = this.item.groups.filter( grp => grp !== groupId) || [];
+				groups = groups.filter( grp => grp !== groupId) || [];
 			} else {
 				// add
-				i.groups.push(groupId);
+				groups.push(groupId);
 			}
-			this.$parent.updateGroup(i.groups);
-		}
+			this.$parent.updateGroup(groups);
+		},
 	}
 }
 </script>
@@ -50,5 +54,13 @@ export default {
 <style>
 	.group-select {
 		display: flex;
+		flex-wrap: wrap;
+	}
+	.group-select .item {
+		white-space: nowrap;
+		margin-right: 3px;
+	}
+	.group-select .label {
+		padding: 1px 3px;
 	}
 </style>

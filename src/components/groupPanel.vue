@@ -10,7 +10,7 @@
 				<ColorBtn @click.native="toggleGroup(group.id)" v-bind:baseColor="group.color" v-bind:disabled="!group.visible">{{group.name}}</ColorBtn>
 			</div>
 
-			<a class="btn" @click="toggleUnset"  v-bind:class="{'disabled': !unset}">Ungrouped</a>
+			<a class="btn" @click="toggleUnset"  v-bind:class="{'disabled': !unset}">Ungrouped ({{ungroupedItems.length}})</a>
 		</div>
 		<div class="group-edit" v-bind:class="{'show' : editing}">
 			<a class="close" @click="closeEdit">&times;</a>
@@ -58,7 +58,10 @@ export default {
 		},
 		unset() {
 			return this.$store.state.unset;
-		}
+		},
+		ungroupedItems() {
+	  		return this.$store.getters.ungroupedItems;
+	  	}
 	},
 	methods: {
 		toggleGroup(groupID) {
@@ -121,12 +124,12 @@ export default {
 		background-position: 50% 50%;
 	    background-size: 26px;		
 	    text-indent: -999px;
-	    min-width: 14px;
+	    min-width: 26px;
 	}
 	.group-edit {
 		display: none;
 		position: relative;
-		max-width: 200px;
+		min-width: 200px;
 		color: #333;
 		background: #cccccc;
 		border: 1px solid #585858;
@@ -135,7 +138,7 @@ export default {
 		margin-top: 4px;
 	}
 	.group-edit.show {
-		display: block;
+		display: inline-block;
 	}
 	.group-edit .close {
 		position: absolute;

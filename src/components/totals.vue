@@ -1,13 +1,13 @@
 <template>
 	<Fragment>
-		<tr class="totals-row" v-for="grp in filteredItemsByGroup" v-bind:style="{backgroundColor: grp.color}">
-			<th colspan="5" class="num">{{grp.name}}</th>
-			<th class="num">{{grp.totalWeight}}</th>
-			<th class="num">{{grp.totalQty}}</th>
-			<th class="num">{{grp.totalPrice | currency}}</th>
-			<th>{{grp.itemCount}} item{{grp.itemCount > 1 || !grp.itemCount? 's' : 
-			''}}</th>
-		</tr>
+		<div class="row totals-row" v-for="grp in filteredItemsByGroup" v-bind:style="{backgroundColor: grp.color}">
+			<div class="grow num">{{grp.name}}</div>
+			<div class="col6 num">{{grp.totalWeight}}</div>
+			<div class="col7 num">{{grp.totalQty}}</div>
+			<div class="col8 num">{{grp.totalPrice | currency}}</div>
+			<div class="col9">{{grp.itemCount}} item{{grp.itemCount > 1 || !grp.itemCount? 's' : 
+			''}}</div>
+		</div>
 	</Fragment>
 </template>
 
@@ -15,10 +15,12 @@
 
 	<script>
 import { Fragment } from 'vue-fragment';
+import utilities from '../utilities'
 
 export default {
 	name: 'totals',
 	components: {Fragment},
+	mixins: [utilities],
 	data() {
 		return {
 			
@@ -26,13 +28,6 @@ export default {
 	},
 	mounted() {
 
-	},
-	filters: {
-		currency(value) {
-			const decimals = 2;
-			const symbol = "$";
-			return symbol + Math.abs(value).toFixed(decimals);
-		}
 	},
 	computed: {
 		unset() {

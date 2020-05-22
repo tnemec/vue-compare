@@ -11,8 +11,8 @@ export default new Vuex.Store({
   state: {
   	items: [],
   	groups: [
-  		{id: 0, name: 'G1', color: 'rgb(47, 113, 115)', visible: true},
-  		{id: 1, name: 'G2', color: 'rgb(231, 111, 81)', visible: true},
+  		{id: 0, name: 'Group 1', color: 'rgb(47, 113, 115)', visible: true},
+  		{id: 1, name: 'Group 2', color: 'rgb(231, 111, 81)', visible: true},
   	],
   	unset: false, // should show items that are not in any groups
   	suppliers: {},
@@ -33,6 +33,9 @@ export default new Vuex.Store({
 			return -1;
 		})
 	},
+	getGroups(state) {
+		return state.groups.sort( (a,b) => a.id - b.id);
+	},
 	filteredItems(state){
 	let groups = state.groups;
 		if(groups && state.items) {
@@ -48,21 +51,24 @@ export default new Vuex.Store({
 			});
 		}
 	},
+	ungroupedItems(state) {
+		return state.items.filter( item => !item.groups.length ) || [];
+	},
   },
   mutations: {
 	initialiseStore(state) {
 		// restore state from the browser's localStorage object
 		
-		// if(localStorage.getItem(localStorageKey)) {
-		// 	try {
-		// 		this.replaceState(
-		// 			Object.assign(state, JSON.parse(window.localStorage.getItem(localStorageKey)))
-		// 		);
-		// 		console.log('state initialzed from localStorage')
-		// 	} catch(e) {
-		// 		console.log("Error: failed to initialze state from LocalStorage: " + e)
-		// 	}
-		// }
+		if(localStorage.getItem(localStorageKey)) {
+			try {
+				this.replaceState(
+					Object.assign(state, JSON.parse(window.localStorage.getItem(localStorageKey)))
+				);
+				console.log('state initialzed from localStorage')
+			} catch(e) {
+				console.log("Error: failed to initialze state from LocalStorage: " + e)
+			}
+		}
 		
 	},
 	clearLocalStorage(state) {
