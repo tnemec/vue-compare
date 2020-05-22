@@ -2,10 +2,10 @@
 	<Fragment>
 		<div class="row totals-row" v-for="grp in filteredItemsByGroup" v-bind:style="{backgroundColor: grp.color}">
 			<div class="grow num">{{grp.name}}</div>
-			<div class="col6 num">{{grp.totalWeight}}</div>
-			<div class="col7 num">{{grp.totalQty}}</div>
-			<div class="col8 num">{{grp.totalPrice | currency}}</div>
-			<div class="col9">{{grp.itemCount}} item{{grp.itemCount > 1 || !grp.itemCount? 's' : 
+			<div class="col-wt num">{{grp.totalWeight}}</div>
+			<div class="col-qty num">{{grp.totalQty}}</div>
+			<div class="col-price num">{{grp.totalPrice | currency}}</div>
+			<div class="col-del">{{grp.itemCount}} item{{grp.itemCount > 1 || !grp.itemCount? 's' : 
 			''}}</div>
 		</div>
 	</Fragment>

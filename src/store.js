@@ -15,7 +15,7 @@ export default new Vuex.Store({
   		{id: 1, name: 'Group 2', color: 'rgb(231, 111, 81)', visible: true},
   	],
   	unset: false, // should show items that are not in any groups
-  	suppliers: {},
+  	suppliers: [],
   	baseItem: {name:'',id:0,url:'',specs:'',qty:1,price:0,weight:0,groups:[0],attributes:[],supplier:null,enabled:true},
   },
   getters: {

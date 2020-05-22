@@ -11,14 +11,15 @@
 			<div class="item-table">
 				<div class="row row-header">
 					<div class="col1">&nbsp;</div>
-					<div class="col2">Group</div>	  
-					<div class="col3">Name</div>
-					<div class="col4">Specs</div>
-					<div class="col5">Link</div>
-					<div class="col6">Wt</div>
-					<div class="col7">Qty</div>
-					<div class="col8">Price</div>
-					<div class="col9">&nbsp;</div>
+					<div class="col-group">Group</div>	  
+					<div class="col-name">Name</div>
+					<div class="col-specs">Specs</div>
+					<div class="col-link">Link</div>
+					<div class="col-supplier">Supplier</div>
+					<div class="col-wt">Wt</div>
+					<div class="col-qty">Qty</div>
+					<div class="col-price">Price</div>
+					<div class="col-del">&nbsp;</div>
 				</div>
 
 				<itemComponent  v-for="(row, index) in filteredItems" v-bind:key="row.id" v-bind:item="row" v-bind:index="index" /></itemComponent>
@@ -163,37 +164,41 @@
 		flex-basis: 3%;
 		min-width: 40px;
 	}
-	.item-table .col2 {
+	.item-table .col-group {
 		flex-basis: 5%;
 		min-width: 100px;
 	}	
-	.item-table .col3 {
+	.item-table .col-name {
 		flex-basis: 10%;
 		min-width: 175px;
 		flex-grow: 1;
 	}	
-	.item-table .col4 {
+	.item-table .col-specs {
 		flex-basis: 10%;
 		min-width: 175px;
 		flex-grow: 1;
 	}	
-	.item-table .col5 {
+	.item-table .col-link {
 		flex-basis: 10%;
 		min-width: 175px;
 	}	
-	.item-table .col6 {
+	.item-table .col-supplier {
+		flex-basis: 10%;
+		min-width: 155px;
+	}		
+	.item-table .col-wt {
 		flex-basis: 3%;
 		min-width: 60px;
 	}
-	.item-table .col7 {
+	.item-table .col-qty {
 		flex-basis: 3%;
 		min-width: 60px;
 	}
-	.item-table .col8 {
+	.item-table .col-price {
 		flex-basis: 5%;
 		min-width: 80px;
 	}
-	.item-table .col9 {
+	.item-table .col-del {
 		flex-basis: 3%;
 		min-width: 60px;
 	}
@@ -225,7 +230,7 @@
 		color: #D4D4D4;
 	}
 
-	@media only screen and (max-width:1000px) {
+	@media only screen and (max-width:1150px) {
 		/* breakpoint for table */
 		.item-table .row-header {
 			display: none;

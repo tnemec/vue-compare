@@ -5,35 +5,39 @@
 	  	  <div class="col1 sel">
 	  	  		<Checkbox v-bind:checked="item.enabled" @click.native.prevent="toggleEnabled">{{index +1}}</Checkbox>
 	  	  </div>
-		  <div class="col2">
+		  <div class="col-group">
 		  	<div class="row-label">Group</div>
 		  	<groupSelect v-bind:item="newItem" />
 		  </div>	  
-		  <div class="col3">
+		  <div class="col-name">
 		  	<div class="row-label">Name</div>
 		  	<input type="text" class="item-name" v-model="newItem.name" placeholder="Name" @blur="updateItem" />
 		  </div>
-	  	  <div class="col4 specs">
+	  	  <div class="col-specs specs">
 	  	  	<div class="row-label">Specs</div>
 	  	  	<textarea class="item-specs" v-model="newItem.specs" placeholder="Specs" @blur="updateItem" />
 	  	  </div>
-	  	  <div class="col5 url">
+	  	  <div class="col-link url">
 	  	  	<div class="row-label">Link</div>
 	  	  	<input type="text" class="item-url" v-model="newItem.url" placeholder="URL" @blur="updateItem" />
 	  	  </div>		
-		  <div class="col6">
+	  	  <div class="col-supplier">
+	  	  	<div class="row-label">Supplier</div>
+	  	  	<input type="text" class="item-supplier" v-model="newItem.supplier" placeholder="Supplier" @blur="updateItem" />
+	  	  </div>		  	  
+		  <div class="col-wt">
 		  	<div class="row-label">Wt.</div>
 		  	<input type="text" class="item-weight" v-model="newItem.weight" placeholder="Wt" @blur="updateItem" @focus="select" />
 		  </div>
-		  <div class="col7">
+		  <div class="col-qty">
 		  	<div class="row-label">Qty.</div>
 		  	<input type="text" class="item-qty" v-model="newItem.qty" placeholder="Qty" @blur="updateItem" @focus="select" />
 		  </div>
-		  <div class="col8">
+		  <div class="col-price">
 		  	<div class="row-label">Price</div>
 		  	<input type="text" class="item-price" v-model="priceFormatted" placeholder="Price" @blur="updateItem" @focus="selectPrice" />
 		  </div>
-		  <div class="col9 del"><b class="delete" @click="removeItem">X</b></div>
+		  <div class="col-del del"><b class="delete" @click="removeItem">X</b></div>
 	  </div>
 	</div>
 </template>
@@ -57,7 +61,7 @@ export default {
 	data() {
 		return {
 			newItem: {...this.item},
-			priceFormatted: this.$options.filters.currency(this.item.price),
+			priceFormatted: this.$options.filters.currency(parseFloat(this.item.price)),
 		}
 	},
 	computed: {
@@ -70,9 +74,11 @@ export default {
 			this.$store.commit('toggleItemEnabled', this.newItem.id);
 		},
 		updateItem() {
-			this.newItem.price = parseFloat(this.priceFormatted);
-			this.priceFormatted = this.$options.filters.currency(this.priceFormatted);
+			this.newItem.price = parseFloat(this.priceFormatted.replace(/[^0-9|.]+/g,''));
 			this.$store.commit('updateItem', this.newItem);
+			this.$nextTick( () => {
+				this.priceFormatted = this.$options.filters.currency(parseFloat(this.newItem.price));
+			})
 		},
 		removeItem() {
 			this.$store.commit('removeItem', this.newItem.id);
@@ -82,7 +88,9 @@ export default {
 		},
 		selectPrice(evt) {
 			this.priceFormatted = this.priceFormatted.replace(/[^0-9|.]+/g,'');
-			evt.target.select();
+			this.$nextTick( () => {
+				evt.target.select();
+			});
 		},
 		updateGroup(groupArray) {
 			// used for group select child element to update the current newItem
