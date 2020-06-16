@@ -32,11 +32,19 @@
 export default {
 	name: 'utilities',
 	filters: {
-	currency(value) {
-		const decimals = 2;
-		const symbol = "$";
-		return symbol + Math.abs(value).toFixed(decimals);
-	}
+		currency(value) {
+			const decimals = 2;
+			const symbol = "$";
+			return symbol + Math.abs(value).toFixed(decimals);
+		},
+		flagColor(key) {
+			const colors = {
+				'Ordered': '#948201',
+		  		'Received': '#0097af',
+		  		'Complete': '#01a944',
+			};
+			return colors[key] || '#000';
+		}
 	},
 	methods : {
 		randomColor() {

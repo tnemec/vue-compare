@@ -14,9 +14,15 @@ export default new Vuex.Store({
   		{id: 0, name: 'Group 1', color: 'rgb(47, 113, 115)', visible: true},
   		{id: 1, name: 'Group 2', color: 'rgb(231, 111, 81)', visible: true},
   	],
-  	unset: false, // should show items that are not in any groups
+  	unset: true, // should show items that are not in any groups
   	suppliers: [],
-  	baseItem: {name:'',id:0,url:'',specs:'',qty:1,price:0,weight:0,groups:[0],attributes:[],supplier:null,enabled:true},
+  	filterBySupplier: null,
+  	baseItem: {name:'',id:0,url:'',specs:'',qty:1,price:0,weight:0,groups:[0],flags:{
+  		'Ordered': false,
+  		'Received': false,
+  		'Complete': false,
+  	},
+  	supplier:null,enabled:true},
   },
   getters: {
   	getLocalStorageKey: () => {
@@ -45,15 +51,27 @@ export default new Vuex.Store({
 					if (groups[i].visible && item.groups && item.groups.indexOf(groups[i].id) !== -1) {
 						show = true;
 					}
+					// include ungrouped items
+					show = show || state.unset; 
+
+					// supplier filters
+					if(state.filterBySupplier !== null && state.filterBySupplier !== item.supplier) {
+						show = false;
+					}
 				}
-				// return items with no groups selected if unset is true
-				return show || state.unset;
+				return show;
 			});
 		}
+	},
+	groupFilterActive(state) {
+		return state.groups.filter( group => !group.visible ).length;
 	},
 	ungroupedItems(state) {
 		return state.items.filter( item => !item.groups.length ) || [];
 	},
+	getSuppliers(state) {
+		return state.suppliers;//.sort();
+	}
   },
   mutations: {
 	initialiseStore(state) {
@@ -82,6 +100,13 @@ export default new Vuex.Store({
 	},
 	updateItem(state, item) {
 		state.items.splice(state.items.findIndex(i => i.id === item.id), 1, item);
+		// build suppliers list with only used supplier names
+		const suppliers = state.items.map( (item) => {
+			if(item.supplier !== '') {
+				return item.supplier;
+			}
+		});
+		state.suppliers = [ ...new Set(suppliers) ]; // filters out duplicates
 	},
 	removeItem(state, itemId) {
 		state.items = state.items.filter(item => item.id !== itemId);
@@ -100,12 +125,16 @@ export default new Vuex.Store({
 			item.groups = item.groups.filter( group => group.id !== groupId);
 			return item;
 		});
-		console.log(state.items)
 		state.groups = state.groups.filter( group => group.id !== groupId);
 	},
 	toggleGroupVisibility(state, groupId) {
 		const groupIndex = state.groups.findIndex(g => g.id === groupId);
 		state.groups[groupIndex].visible = !state.groups[groupIndex].visible;
+	},
+	showAllGroups(state) {
+		const groups = [...state.groups];
+		groups.forEach( group => group.visible = true);
+		state.groups = groups;
 	},
 	toggleUnset(state) {
 		state.unset = !state.unset;
@@ -117,7 +146,10 @@ export default new Vuex.Store({
 			item.enabled = !item.enabled;
 			state.items.splice(itemIndex, 1, item);
 		}
-	}
+	},
+	setSupplierFilter(state, supplier) {
+		state.filterBySupplier = supplier;
+	},
 
   },
   actions: {

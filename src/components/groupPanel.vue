@@ -3,11 +3,13 @@
 		<div class="title">Groups</div>
 		<div class="top-row group-buttons">
 			<a class="btn" @click="newGroup">+</a>
-			<a class="btn edit" @click="editMode">Edit</a>			
+			<a class="btn edit" @click="editMode">Edit</a>		
+			<a class="btn" v-if="groupFilterActive" @click="showAllGroups">Show All</a>	
 		</div>
+		<div class="label">Filter by group:</div>
 		<div class="group-buttons">
 			<div v-for="group of groups" :key="group.id">
-				<ColorBtn @click.native="toggleGroup(group.id)" v-bind:baseColor="group.color" v-bind:disabled="!group.visible">{{group.name}}</ColorBtn>
+				<ColorBtn @click.native="toggleGroup(group.id)" v-bind:baseColor="group.color" v-bind:disabled="!group.visible">{{group.name}} ({{groupItemCount(group.id)}})</ColorBtn>
 			</div>
 
 			<a class="btn" @click="toggleUnset"  v-bind:class="{'disabled': !unset}">Ungrouped ({{ungroupedItems.length}})</a>
@@ -61,6 +63,9 @@ export default {
 		},
 		ungroupedItems() {
 	  		return this.$store.getters.ungroupedItems;
+	  	},
+	  	groupFilterActive() {
+	  		return this.$store.getters.groupFilterActive;
 	  	}
 	},
 	methods: {
@@ -69,6 +74,9 @@ export default {
 		},
 		toggleUnset() {
 			this.$store.commit('toggleUnset');
+		},
+		showAllGroups() {
+			this.$store.commit('showAllGroups');
 		},
 		newGroup() {
 			this.$store.commit('newGroup', this.randomRGBColor());
@@ -97,6 +105,11 @@ export default {
 		},
 		finishTempGroup() {
 			this.tempGroup = {id: undefined};
+		},
+		groupItemCount(groupId) {
+			return this.$store.state.items.filter( item => {
+				return item.groups.includes(groupId);
+			}).length;
 		}
 	}
 }
@@ -109,13 +122,6 @@ export default {
 
 	.group-panel .group-buttons {
 		display: flex;
-	}
-
-	.group-panel .group-buttons .btn.disabled {
-		background: #999 !important;
-		color: #665;
-		text-shadow: none !important;
-		box-shadow: none !important;	
 	}
 
 	.btn.edit {

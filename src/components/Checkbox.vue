@@ -1,7 +1,7 @@
 <template>
 	<div class="checkbox">
     	<input type="checkbox" :id="localId" :checked="checked">
-    	<label :for="localId"><slot></slot></label>
+    	<label :for="localId"><span :style="labelStyle"><slot></slot></span></label>
 	</div>
 </template>
 
@@ -11,12 +11,18 @@ export default {
 	name: 'Checkbox',
 	props: [
 		'checked',
+		'labelColor',
 	],
 	data() {
 		return {
 			localId: this._uid,
 		}
 	},
+	computed: {
+		labelStyle() {
+			return (this.labelColor && this.checked) ? 'background: ' + this.labelColor : '';
+		}
+	}
 
 
 }
@@ -83,6 +89,10 @@ export default {
 	/*Unhide on the checked state*/
 	.checkbox input[type="checkbox"]:checked + label::after {
 	    content: "";
+	}
+
+	.checkbox label span {
+		padding: 1px 3px;
 	}
 
 </style>

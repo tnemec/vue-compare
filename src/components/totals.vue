@@ -1,6 +1,6 @@
 <template>
 	<Fragment>
-		<div class="row totals-row" v-for="grp in filteredItemsByGroup" v-bind:style="{backgroundColor: grp.color}">
+		<div class="row totals-row" v-for="grp in filteredTotalsByGroup.groupTotals" v-bind:style="{backgroundColor: grp.color}"  v-if="filteredItems.length">
 			<div class="grow num">{{grp.name}}</div>
 			<div class="col-wt num">{{grp.totalWeight}}</div>
 			<div class="col-qty num">{{grp.totalQty}}</div>
@@ -8,6 +8,15 @@
 			<div class="col-del">{{grp.itemCount}} item{{grp.itemCount > 1 || !grp.itemCount? 's' : 
 			''}}</div>
 		</div>
+		<div class="row totals-row grand-total" v-if="filteredItems.length">
+			<div class="grow num">All Groups</div>
+			<div class="col-wt num">{{filteredTotalsByGroup.grandTotal.totalWeight}}</div>
+			<div class="col-qty num">{{filteredTotalsByGroup.grandTotal.totalQty}}</div>
+			<div class="col-price num">{{filteredTotalsByGroup.grandTotal.totalPrice | currency}}</div>
+			<div class="col-del">{{filteredTotalsByGroup.grandTotal.itemCount}} item{{filteredTotalsByGroup.grandTotal.itemCount > 1 || !filteredTotalsByGroup.grandTotal.itemCount? 's' : 
+			''}}</div>
+		</div>
+
 	</Fragment>
 </template>
 
@@ -36,18 +45,31 @@ export default {
 		filteredItems() {
 	  		return this.$store.getters.filteredItems;
 	  	},
-	  	filteredItemsByGroup() {
+	  	filteredTotalsByGroup() {
 	  		const filteredItems = this.$store.getters.filteredItems;
-	  		let groupTotals = [...this.$store.state.groups];
+	  		let grandTotal = {
+				totalPrice: 0,
+				totalWeight: 0,
+				totalQty: 0,
+				itemCount: 0
+	  		};
+	  		let groupTotals = [...this.$store.getters.getGroups];
+
 	  		groupTotals.forEach( (group) => {
 	  			group.totalPrice = 0;
 	  			group.totalWeight = 0;
 	  			group.totalQty = 0;
 	  			group.itemCount = 0;
 	  		});	
+
 			if(this.filteredItems && this.filteredItems.length) {
 				this.filteredItems.forEach( (item) => {
 					if( item.enabled) {
+						grandTotal.totalPrice += (parseFloat(item.price) * parseFloat(item.qty));
+						grandTotal.totalWeight += (parseFloat(item.weight) * parseFloat(item.qty));
+						grandTotal.totalQty += parseFloat(item.qty);
+						grandTotal.itemCount++;
+
 						item.groups.forEach( (group) => {
 							let thisGroup = groupTotals.find( g => g.id === group);
 							if(thisGroup) {
@@ -59,9 +81,9 @@ export default {
 						});
 					}
 				});
-				return groupTotals;
-			} 	  		
-
+				
+			} 	 
+			return {groupTotals, grandTotal};		
 	  	},
 	},
 	methods: {
