@@ -16,13 +16,17 @@ export default new Vuex.Store({
   	],
   	unset: true, // should show items that are not in any groups
   	suppliers: [],
+  	filterByFlags: {
+  		'Ordered': false,
+  		'Received': false,
+  		'Complete': false,
+  	},
   	filterBySupplier: null,
   	baseItem: {name:'',id:0,url:'',specs:'',qty:1,price:0,weight:0,groups:[0],flags:{
   		'Ordered': false,
   		'Received': false,
   		'Complete': false,
-  	},
-  	supplier:null,enabled:true},
+  	},supplier:null,enabled:true},
   },
   getters: {
   	getLocalStorageKey: () => {
@@ -58,6 +62,26 @@ export default new Vuex.Store({
 					if(state.filterBySupplier !== null && state.filterBySupplier !== item.supplier) {
 						show = false;
 					}
+
+					// flag filter
+					let allFlagsFalse = true;
+					for(let key of Object.keys(state.filterByFlags)) {
+						if(state.filterByFlags[key]) {
+							allFlagsFalse = false;
+							break;
+						}
+					}
+					if(! allFlagsFalse) {
+						// filter only if at least one flag is true
+						for(let key of Object.keys(state.filterByFlags)) {
+							show = item.flags[key] && state.filterByFlags[key];
+							if(show) {
+								// as soon as one flag is true, show the item
+								break;
+							}
+						}						
+					}
+
 				}
 				return show;
 			});
@@ -71,6 +95,9 @@ export default new Vuex.Store({
 	},
 	getSuppliers(state) {
 		return state.suppliers;//.sort();
+	},
+	getFlagFilters(state) {
+		return state.filterByFlags;
 	}
   },
   mutations: {
@@ -150,6 +177,18 @@ export default new Vuex.Store({
 	setSupplierFilter(state, supplier) {
 		state.filterBySupplier = supplier;
 	},
+	setFlagFilter(state, flag) {
+		if(flag === 'none') {
+			state.filterByFlags = {
+		  		'Ordered': false,
+		  		'Received': false,
+		  		'Complete': false,
+		  	}
+		} else {
+			// toggle individual flag
+			state.filterByFlags[flag] = !state.filterByFlags[flag]
+		}
+	}
 
   },
   actions: {

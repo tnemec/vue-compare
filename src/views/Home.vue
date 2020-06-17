@@ -2,6 +2,7 @@
 	<div class="home">
 		<div class="flex-row">
 			<groupPanel />
+			<FlagFilter />
 			<SupplierList />
 		</div>
 		<div class="item-panel panel">
@@ -46,6 +47,7 @@
 	import groupPanel from '../components/groupPanel';
 	import totals from '../components/totals';
 	import SupplierList from '../components/SupplierList';
+	import FlagFilter from '../components/FlagFilter';
 
 
 	export default {
@@ -60,6 +62,7 @@
 			groupPanel,
 			totals,
 			SupplierList,
+			FlagFilter,
 		},
 		filters: {
 			currency(value) {

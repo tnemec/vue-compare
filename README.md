@@ -2,7 +2,7 @@
 
 A small web app that can be used to shop for parts. You can add some information about each part including a URL to the store page along with quantity and price. 
 
-Assinging items to different groups can be used to make comparisons or have alternate suppliers. The total price for each group will be calculated independently. You can create as many groups as needed.
+Assigning items to different groups can be used to make comparisons or have alternate suppliers. The total price for each group will be calculated independently. You can create as many groups as needed.
 
 The flags are useful to keep track of the status of each item. There are a few ways to filter the view to see just what you need.
 
