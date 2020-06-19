@@ -1,7 +1,7 @@
 <template>
 	<div class="group-select">
 		<div class="item" v-for="(group, index) of groups"  v-bind:key="group.id">
-			<Checkbox v-bind:checked="isMember(group.id)" @click.native.prevent="toggleChecked(group.id)" v-bind:labelColor="isMember(group.id) ? group.color : 'transparent'">{{group.name}}</Checkbox>
+			<Checkbox v-bind:checked="isMember(group.id)" @clicked="toggleChecked(group.id)" v-bind:labelColor="isMember(group.id) ? group.color : 'transparent'">{{group.name}}</Checkbox>
 		</div>
 	</div>
 </template>

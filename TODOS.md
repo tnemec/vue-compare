@@ -1,4 +1,4 @@
-#TODOS
+# TODOS
 
 * ~~Flags filter~~
 * BOM view - with print stylesheet
@@ -6,6 +6,6 @@
 * Tooltips to show how each feature works
 * Save state to local file - and loading
 * Categories? - Maybe groups are good enough
-* Sorting of items
+* Sorting of items - by group, supplier, name
 
 

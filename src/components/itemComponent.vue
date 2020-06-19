@@ -3,7 +3,7 @@
 	  <div class="grp-line" v-for="group in groups" :style="{backgroundColor: groupColor(group)}"></div>
 	   <div class="row">
 	  	  <div class="col1 sel">
-	  	  		<Checkbox v-bind:checked="item.enabled" @click.native.prevent="toggleEnabled">{{index +1}}</Checkbox>
+	  	  		<Checkbox v-bind:checked="item.enabled" @clicked="toggleEnabled">{{index +1}}</Checkbox>
 	  	  </div>
 		  <div class="col-group">
 		  	<div class="row-label">Group</div>
@@ -19,7 +19,7 @@
 	  	  </div>
 	  	  <div class="col-flags flags">
 	  	  	<div class="row-label">Flags</div>
-	  	  	<Checkbox v-for="key in Object.keys(item.flags)" v-bind:checked="item.flags[key]" @click.native.prevent="toggleFlag(key)" v-bind:labelColor="key | flagColor">{{key}}</Checkbox>
+	  	  	<Checkbox v-for="key in Object.keys(item.flags)" v-bind:checked="item.flags[key]" @clicked="toggleFlag(key)" v-bind:labelColor="key | flagColor">{{key}}</Checkbox>
 	  	  </div>	  	  
 	  	  <div class="col-link url">
 	  	  	<div class="row-label">Link</div>

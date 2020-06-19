@@ -1,11 +1,17 @@
 <template>
-	<div class="checkbox">
+	<div class="checkbox" @click.prevent.stop="clicked">
     	<input type="checkbox" :id="localId" :checked="checked">
     	<label :for="localId"><span :style="labelStyle"><slot></slot></span></label>
 	</div>
 </template>
 
 <script>
+
+// required prop: checked - the checked state (bool)
+// the native events on the input is repressed
+// optional prop: labelColor - hex or rgb string to apply to the label background if checked == true
+
+// emits 'clicked' event
 
 export default {
 	name: 'Checkbox',
@@ -22,6 +28,11 @@ export default {
 		labelStyle() {
 			return (this.labelColor && this.checked) ? 'background: ' + this.labelColor : '';
 		}
+	},
+	methods: {
+		clicked() {
+			 this.$emit('clicked');
+		},
 	}
 
 

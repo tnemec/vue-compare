@@ -9,7 +9,7 @@
 		<div class="label">Filter by group:</div>
 		<div class="group-buttons">
 			<div v-for="group of groups" :key="group.id">
-				<ColorBtn @click.native="toggleGroup(group.id)" v-bind:baseColor="group.color" v-bind:disabled="!group.visible">{{group.name}} ({{groupItemCount(group.id)}})</ColorBtn>
+				<ColorBtn @click.native="toggleGroup(group.id)" v-bind:baseColor="group.color | hexToRGB" v-bind:disabled="!group.visible">{{group.name}} ({{groupItemCount(group.id)}})</ColorBtn>
 			</div>
 
 			<a class="btn" @click="toggleUnset"  v-bind:class="{'disabled': !unset}">Ungrouped ({{ungroupedItems.length}})</a>
@@ -184,6 +184,10 @@ export default {
 		height: 16px;
 		text-align: center;
 		line-height: 16px;
+	}
+
+	.group-edit input[type="text"] {
+		color: #333;
 	}
 
 </style>
