@@ -35,6 +35,7 @@
 			</div>
 
 		</div>
+		<ImportExport />
 
 <!-- 		<div>
 			<a class="btn" @click="clearLocalStorage()">Clear Local Storage</a>
@@ -48,6 +49,7 @@
 	import totals from '../components/totals';
 	import SupplierList from '../components/SupplierList';
 	import FlagFilter from '../components/FlagFilter';
+	import ImportExport from '../components/ImportExport';
 
 
 	export default {
@@ -63,6 +65,7 @@
 			totals,
 			SupplierList,
 			FlagFilter,
+			ImportExport,
 		},
 		filters: {
 			currency(value) {

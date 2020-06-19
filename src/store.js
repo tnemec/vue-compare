@@ -188,6 +188,10 @@ export default new Vuex.Store({
 			// toggle individual flag
 			state.filterByFlags[flag] = !state.filterByFlags[flag]
 		}
+	},
+	importItemsAndGroups(state, payload) {
+		this.state.groups = payload.groups;
+		this.state.items = payload.items;
 	}
 
   },

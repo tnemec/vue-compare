@@ -50,6 +50,10 @@ a:hover {
 	text-decoration: underline;
 }
 
+.right {
+	text-align: right;
+}
+
 .btn {
 	box-shadow:inset 0px 1px 0px 0px #9fa6ad;
 	background: linear-gradient(to bottom, #848e91 5%, #545759 100%);
