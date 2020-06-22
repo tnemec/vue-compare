@@ -129,6 +129,52 @@ a.btn:hover {
 	margin-right: 0;
 }
 
+/* collapsing containers */
+.collapse-container {
+	position: relative;
+	padding-top: 22px;
+	margin-bottom: 8px;
+}
+.collapser {
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	right: 2px;
+	padding: 2px 24px 2px 6px;
+	background: rgba(0,0,0,0.15);
+	border-radius: 3px 3px 0 0;
+	cursor: pointer;
+}
+.collapser::after {
+	/* arrow */
+	position: absolute;
+	bottom: -2px;
+	right: 2px;
+	content: "";
+	width: 0; 
+	height: 0; 
+	border: 8px solid transparent;
+	border-top: 8px solid rgba(255,255,255,0.30);
+	transform: rotate(0deg);
+	transition: transform 0.2s, bottom 0.2s;
+}
+.collapsable.collapse + .collapser::after {
+	transform: rotate(180deg);
+	bottom: 6px;
+}
+.collapsable {
+	overflow: hidden;
+}
+.collapsable > * {
+	margin-bottom: 0;
+	transition: margin-bottom 0.2s;
+}
+.collapsable.collapse > * {
+	margin-bottom: -400px;
+}
+
+
+
 
 /* forms */
 input[type="text"], textarea {

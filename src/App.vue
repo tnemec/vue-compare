@@ -8,7 +8,7 @@
 
 <script>
 import Home from './views/Home.vue'
-  import Header from './components/Header'
+import Header from './components/Header'
 import './views/ui.css'
 
 

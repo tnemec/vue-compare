@@ -122,6 +122,7 @@ export default {
 
 	.group-panel .group-buttons {
 		display: flex;
+		flex-wrap: wrap;
 	}
 
 	.btn.edit {

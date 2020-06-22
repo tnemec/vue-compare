@@ -1,9 +1,12 @@
 <template>
 	<div class="home">
-		<div class="flex-row">
-			<groupPanel />
-			<FlagFilter />
-			<SupplierList />
+		<div class="filter-section collapse-container">
+			<div class="flex-row collapsable" v-bind:class="{collapse : !showFilters}" id="filters">
+				<groupPanel />
+				<FlagFilter />
+				<SupplierList />
+			</div>
+			<div class="collapser" @click="toggleFilters">Filters</div>
 		</div>
 		<div class="item-panel panel">
 			<div class="item-count title">{{filteredItems.length}} item{{filteredItems.length > 1 || !filteredItems.length ? 's' : ''}}</div>
@@ -57,6 +60,7 @@
 		data() {
 			return {
 				clearItemsMode: false,
+				showFilters: true,
 			}
 		},
 		components: {
@@ -115,6 +119,9 @@
 			clearLocalStorage() {
 				this.$store.commit('clearLocalStorage');
 			},
+			toggleFilters() {
+				this.showFilters = !this.showFilters;
+			}
 		}
 	}
 </script>
