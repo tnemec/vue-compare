@@ -46,6 +46,10 @@ export default {
 
 	/* styles from https://medium.com/claritydesignsystem/pure-css-accessible-checkboxes-and-radios-buttons-54063e759bb3 */
 
+	.checkbox {
+		padding-bottom: 3px;
+	}
+
 	.checkbox input[type="checkbox"] {
 	    /*opacity: 0;*/
 	    display: none;
@@ -57,7 +61,7 @@ export default {
 	    display: inline-block;
 	    /*16px width of fake checkbox + 6px distance between fake checkbox and text*/
 	    padding-left: 22px;
-	    line-height: 24px
+	    /*line-height: 24px*/
 	}
 
 	.checkbox label::before,
@@ -101,7 +105,6 @@ export default {
 	.checkbox input[type="checkbox"]:checked + label::after {
 	    content: "";
 	}
-
 	.checkbox label span {
 		padding: 1px 3px;
 	}

@@ -104,6 +104,9 @@ a.btn:hover {
 	padding: 3px 0 3px 0;
 	margin: -5px 4px 0px 4px;	
 }
+.panel .bottom-row {
+	padding: 6px 0 3px 8px;
+}
 
 /* columns */
 
@@ -163,14 +166,19 @@ a.btn:hover {
 	bottom: 6px;
 }
 .collapsable {
-	overflow: hidden;
+	/*overflow: hidden;*/
+	height: auto;
+	transition: height 0.2s ease;
 }
 .collapsable > * {
 	margin-bottom: 0;
-	transition: margin-bottom 0.2s;
+	/*transition: margin-bottom 0.2s;*/
+
 }
-.collapsable.collapse > * {
-	margin-bottom: -400px;
+.collapsable.collapse  {
+	/*margin-bottom: -400px;*/
+	height: 0;
+	overflow: hidden;
 }
 
 
@@ -230,6 +238,9 @@ textarea::placeholder {
 		border-left: 1px solid rgb(250,250,250,0.15);
 		border-right: 1px solid rgb(10,10,10,0.25);
 	}
+	.bom-items .item-table .row > div {
+		text-align: left;
+	}
 
 	.item-table tr {
 		border: 1px solid #333;
@@ -244,7 +255,7 @@ textarea::placeholder {
 		min-width: 40px;
 	}
 	.item-table .col-group {
-		flex: 0 0 5%;
+		flex: 0 0 10%;
 		min-width: 100px;
 	}	
 	.item-table .col-name {

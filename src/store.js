@@ -55,8 +55,11 @@ export default new Vuex.Store({
 					if (groups[i].visible && item.groups && item.groups.indexOf(groups[i].id) !== -1) {
 						show = true;
 					}
-					// include ungrouped items
-					show = show || state.unset; 
+
+					if(! item.groups.length) {
+						// include ungrouped items
+						show = state.unset; 
+					}
 
 					// supplier filters
 					if(state.filterBySupplier !== null && state.filterBySupplier !== item.supplier) {

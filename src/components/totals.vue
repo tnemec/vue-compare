@@ -1,6 +1,6 @@
 <template>
 	<Fragment>
-		<div class="row totals-row" v-for="grp in filteredTotalsByGroup.groupTotals" v-bind:style="{backgroundColor: grp.color}"  v-if="filteredItems.length">
+		<div class="row totals-row" v-for="grp in filteredTotalsByGroup.groupTotals" v-bind:style="{backgroundColor: grp.color}"  v-if="visibleGroups.includes(grp)">
 			<div class="grow num">{{grp.name}}</div>
 			<div class="col-wt num">{{grp.totalWeight}}</div>
 			<div class="col-qty num">{{grp.totalQty}}</div>
@@ -8,7 +8,7 @@
 			<div class="col-del">{{grp.itemCount}} item{{grp.itemCount > 1 || !grp.itemCount? 's' : 
 			''}}</div>
 		</div>
-		<div class="row totals-row grand-total" v-if="filteredItems.length">
+		<div class="row totals-row grand-total" v-if="filteredItems.length && visibleGroups.length > 1">
 			<div class="grow num">All Groups</div>
 			<div class="col-wt num">{{filteredTotalsByGroup.grandTotal.totalWeight}}</div>
 			<div class="col-qty num">{{filteredTotalsByGroup.grandTotal.totalQty}}</div>
@@ -41,6 +41,9 @@ export default {
 	computed: {
 		unset() {
 			return this.$store.state.unset;
+		},
+		visibleGroups() {
+			return this.$store.state.groups.filter( g => g.visible)
 		},
 		filteredItems() {
 	  		return this.$store.getters.filteredItems;

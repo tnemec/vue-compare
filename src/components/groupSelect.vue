@@ -57,8 +57,9 @@ export default {
 		flex-wrap: wrap;
 	}
 	.group-select .item {
-		white-space: nowrap;
+/*		white-space: nowrap;*/
 		margin-right: 3px;
+		text-align: left;
 	}
 	.group-select .label {
 		padding: 1px 3px;

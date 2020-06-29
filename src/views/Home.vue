@@ -1,19 +1,12 @@
 <template>
 	<div class="home">
-		<div class="filter-section collapse-container">
-			<div class="flex-row collapsable" v-bind:class="{collapse : !showFilters}" id="filters">
-				<groupPanel />
-				<FlagFilter />
-				<SupplierList />
-			</div>
-			<div class="collapser" @click="toggleFilters">Filters</div>
-		</div>
+		<FilterPanel />
 		<div class="item-panel panel">
 			<div class="item-count title">{{filteredItems.length}} item{{filteredItems.length > 1 || !filteredItems.length ? 's' : ''}}</div>
 			<div class="top-row">
-				<a class="btn" @click="newItem()"> + Add Item</a>
-				<a class="btn" @click="clearItemsCancel()" v-if="clearItemsMode">Cancel</a>
-				<a class="btn" @click="clearItems()">{{clearItemsLabel}}</a>
+				<a class="btn" @click="newItem"> + Add Item</a>
+				<a class="btn" @click="clearItemsCancel" v-if="clearItemsMode">Cancel</a>
+				<a class="btn" @click="clearItems">{{clearItemsLabel}}</a>
 			</div>
 			<div class="item-table">
 				<div class="row row-header">
@@ -32,6 +25,10 @@
 
 				<itemComponent  v-for="(row, index) in filteredItems" v-bind:key="row.id" v-bind:item="row" v-bind:index="index" /></itemComponent>
 
+				<div class="bottom-row" v-if="filteredItems.length > 3">
+					<a class="btn" @click="newItem"> + Add Item</a>
+				</div>
+
 				<totals />
 
 				
@@ -48,10 +45,8 @@
 
 <script>
 	import itemComponent from '../components/itemComponent';
-	import groupPanel from '../components/groupPanel';
 	import totals from '../components/totals';
-	import SupplierList from '../components/SupplierList';
-	import FlagFilter from '../components/FlagFilter';
+	import FilterPanel from '../components/FilterPanel';
 	import ImportExport from '../components/ImportExport';
 
 
@@ -65,18 +60,9 @@
 		},
 		components: {
 			itemComponent,
-			groupPanel,
+			FilterPanel,
 			totals,
-			SupplierList,
-			FlagFilter,
 			ImportExport,
-		},
-		filters: {
-			currency(value) {
-				const decimals = 2;
-				const symbol = "$";
-				return symbol + Math.abs(value).toFixed(decimals);
-			}
 		},
 		computed : {
 			items() {
@@ -108,7 +94,13 @@
 				}
 			},
 			clearItems() {
-				this.clearItemsMode = true;
+				if(this.clearItemsMode) {
+					this.clearItemsConfirm();
+					this.clearItemsMode = false;
+				} else {
+					this.clearItemsMode = true;
+				}
+				
 			},
 			clearItemsConfirm() {
 				this.$store.commit('removeAllItems');
@@ -119,9 +111,6 @@
 			clearLocalStorage() {
 				this.$store.commit('clearLocalStorage');
 			},
-			toggleFilters() {
-				this.showFilters = !this.showFilters;
-			}
 		}
 	}
 </script>
@@ -129,7 +118,7 @@
 <style>
 
 	.home {
-		padding: 24px;
+		padding: 0 24px;
 	}
 
 
